@@ -49,6 +49,7 @@ function addGravity(elem) {
 
     elem.dy *= airMul;
     elem.dx *= airMul;
+    
 
     if (Math.abs(elem.dy) <= stoppingThreshold && elem.y <= (r/2)) {
         elem.dy = 0;
@@ -72,12 +73,27 @@ function updateSim() {
         cX = cElem.x + cElem.dx;
         cY = cElem.y + cElem.dy;
         //console.log('cX: ' + cX + ' cY' + cY);
-        if (cX <= 0 || cX >= width) {
+        let yDiff = (distR(0, cY, 0, height) - r),
+            xDiff = distR(cX, 0, width, 0);
+//        yDiff = yDiff < 0 ? 0 : yDiff;
+//        xDiff = xDiff < 0 ? 0 : xDiff;
+        //console.log('xDiff: ' + xDiff + ' yDiff: ' + yDiff);
+        //console.log('yDiff >= height ? ' + (yDiff >= height))
+
+        if ( yDiff <= 0 || yDiff >= height || cY < 0) {
+            cElem.dy = -cElem.dy;
+        }
+
+        if ( xDiff <= 0 || xDiff >= height || cX < 0) {
+            cElem.dx = -cElem.dx;
+        }
+
+        /*if (cX <= 0 || cX >= width) {
             cElem.dx = -cElem.dx;
         }
         if (cY <= 0 || cY >= height) {
             cElem.dy = -cElem.dy;
-        }
+        }*/
 
 
         // Update pos
@@ -96,7 +112,8 @@ function draw(ctx) {
     }
 }
 
-
+const interv = 10;
+let counter = 0;
 function animLoop() {
     if (running) {
         const ctx = document.getElementById("sim1").getContext("2d");
@@ -104,11 +121,14 @@ function animLoop() {
         //console.log(elems[0]);
         //console.log('height: ' + height + ' width: ' + width);
         //console.log()
-
-        updateSim();
-
+        if (counter % interv == 0) {
+            updateSim();
+        }
+       
         ctx.clearRect(0, 0, width, height);
         draw(ctx);
+
+        counter++;
     }
 
     window.requestAnimationFrame(animLoop);
