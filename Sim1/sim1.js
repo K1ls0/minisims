@@ -112,8 +112,7 @@ function draw(ctx) {
     }
 }
 
-const interv = 10;
-let counter = 0;
+
 function animLoop() {
     if (running) {
         const ctx = document.getElementById("sim1").getContext("2d");
@@ -121,14 +120,10 @@ function animLoop() {
         //console.log(elems[0]);
         //console.log('height: ' + height + ' width: ' + width);
         //console.log()
-        if (counter % interv == 0) {
-            updateSim();
-        }
-       
+        updateSim();
         ctx.clearRect(0, 0, width, height);
         draw(ctx);
 
-        counter++;
     }
 
     window.requestAnimationFrame(animLoop);
