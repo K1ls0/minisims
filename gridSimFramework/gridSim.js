@@ -1,13 +1,12 @@
 var running = true;
+
+let width = 100, height = 100;
 function tRun() {
     running = !running;
 }
 
-let grid = new Grid(10, 10);
-
-
 function initSim() {
-
+    initGrid(200, 200);
 }
 
 
@@ -25,13 +24,7 @@ function updateSim() {
 }
 
 function draw(ctx) {
-    let cElem = elems[0];
-    for (let cElem of elems) {
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        ctx.ellipse(cElem.x, cElem.y, r, r, 0, 0, 360);
-        ctx.fill();
-    }
+    grid.draw(ctx, width, height);
 }
 
 

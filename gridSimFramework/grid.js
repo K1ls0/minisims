@@ -72,10 +72,24 @@ class Grid {
         }
     }
 
-    draw(ctx) {
+    draw(ctx, widthpx, heightpx)  {
         // TODO
-        // Make local context?
+        const tileHeight = heightpx / this.height, tileWidth = widthpx / this.width;
+        let cOriginY = 0, cOriginX = 0;
+        for (let y = 0; y < this.height; y++) {
+            for (let x = 0; x < this.width; x++) {
+                cOriginY = Math.floor((heightpx * y)/this.height);
+                cOriginX = Math.floor((widthpx * x)/this.width);
+                
+                //console.log('cOrigin: (' + cOriginX + ',' + cOriginY + ')');
 
+                ctx.strokestyle = '#FFFFFF';
+                ctx.beginPath();
+                ctx.strokeRect(cOriginX, cOriginY, cOriginX + tileWidth, cOriginY + tileHeight);
+                //ctx.stroke();
+                
+            }
+        }
         // Draw Grid depending on size
         // Pass Drawing data (context, width, height)
         
@@ -92,4 +106,6 @@ class Grid {
 
 function initGrid(height, width) {
     grid = new Grid(height, width);
+
+    //console.log('height: ' + height + ' width: ' + width);
 }
