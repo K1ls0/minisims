@@ -1,3 +1,9 @@
+function randomColor() {
+    //console.log('#' + Math.floor(Math.random() * 0xFFFFFF).toString(16));
+    return '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16);
+}
+
+
 function sqr(n1) {
     return n1 * n1;
 }

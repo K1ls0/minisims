@@ -6,7 +6,7 @@ function tRun() {
 }
 
 function initSim() {
-    initGrid(200, 200);
+    initGrid(50, 50);
 }
 
 
@@ -23,21 +23,22 @@ function updateSim() {
 
 }
 
-function draw(ctx) {
-    grid.draw(ctx, width, height);
+function draw(canv, ctx) {
+    grid.draw(canv, ctx, width, height);
 }
 
 
 function animLoop() {
     if (running) {
-        const ctx = document.getElementById("sim1").getContext("2d");
+        const canv = document.getElementById("sim1");
+        const ctx = canv.getContext("2d");
 
         //console.log(elems[0]);
         //console.log('height: ' + height + ' width: ' + width);
         //console.log()
         updateSim();
         ctx.clearRect(0, 0, width, height);
-        draw(ctx);
+        draw(canv, ctx);
 
     }
 

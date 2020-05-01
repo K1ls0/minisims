@@ -72,21 +72,18 @@ class Grid {
         }
     }
 
-    draw(ctx, widthpx, heightpx)  {
+    draw(canv, ctx, widthpx, heightpx)  {
+        console.log(ctx);
+        
+
         // TODO
         const tileHeight = heightpx / this.height, tileWidth = widthpx / this.width;
-        let cOriginY = 0, cOriginX = 0;
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
-                cOriginY = Math.floor((heightpx * y)/this.height);
-                cOriginX = Math.floor((widthpx * x)/this.width);
-                
-                //console.log('cOrigin: (' + cOriginX + ',' + cOriginY + ')');
-
-                ctx.strokestyle = '#FFFFFF';
+                //ctx.fillStyle = randomColor();
+                ctx.fillStyle = '#0000BB';
                 ctx.beginPath();
-                ctx.strokeRect(cOriginX, cOriginY, cOriginX + tileWidth, cOriginY + tileHeight);
-                //ctx.stroke();
+                ctx.fillRect(x, y, 1, 1);
                 
             }
         }
@@ -98,14 +95,19 @@ class Grid {
         for (let i = 0; i < this.data.length; i++) {
             if (this.data[i] instanceof SimItem) {
                 let coords = this.getC(i);
-                this.data[i].drawUpdate(ctx, cords[0], coords[1]);
+                //this.data[i].drawUpdate(ctx, coords[0], coords[1]);
             }
         }
+        const   scaleX = widthpx / this.width,
+                scaleY = heightpx / this.height;
+        //canv.style.transformOrigin = '0 0';
+        //canv.style.transform = 'scale(' + Math.min(scaleX, scaleY) + ')';
+        //canv.style.imageRendering = 'pixelated';
     }
+
 }
 
-function initGrid(height, width) {
+function initGrid(canv, height, width) {
     grid = new Grid(height, width);
 
-    //console.log('height: ' + height + ' width: ' + width);
 }
