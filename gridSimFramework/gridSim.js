@@ -5,8 +5,52 @@ function tRun() {
     running = !running;
 }
 
+const UPDATE_T = 80;
+
+
+class TestMover extends SimItem {
+
+    constructor() {
+        super();
+        this.col = randomColor();
+        this.vec = [1, 1];
+    }
+
+    simUpdate(simDat) {
+        console.log('simDat: ', simDat);
+//        console.log('mover: ', this);
+        this.col = randomColor();
+
+        let newX = simDat.x + this.vec[0],
+            newY = simDat.y + this.vec[1];
+
+        if (newX < 0 || newX >= simDat.grid.width) {
+            this.vec[0] = -this.vec[0];
+            newX = simDat.x + this.vec[0];
+        }
+
+        if (newY < 0 || newY >= simDat.grid.height) {
+            this.vec[1] = -this.vec[1];
+            newY = simDat.y + this.vec[1];
+        }
+        //console.log('x1: '+ simDat.x + ' y1: ' + simDat.y);
+        //console.log('x2: ' + newX + ' y2: ' + newY);
+        
+        simDat.grid.move(simDat.x, simDat.y, newX, newY);
+    }
+
+
+
+    getPxColor() {
+        return this.col;
+    }
+}
+
+
+
 function initSim() {
-    initGrid(50, 50);
+    initGrid(10, 10);
+    grid.setByI(Math.round(grid.data.length/2), new TestMover());
 }
 
 
@@ -19,8 +63,15 @@ function resizeCanvas() {
     canv.height = height;
 }
 
+let counter = 0;
 function updateSim() {
+    if (counter % UPDATE_T === 0) {
+        grid.update();
 
+        counter = 0;
+    }
+
+    counter++;
 }
 
 function draw(canv, ctx) {

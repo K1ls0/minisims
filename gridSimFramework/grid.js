@@ -1,14 +1,25 @@
 
 let grid = null;
+const backgroundColor = '#333366';
 
+class SimData {
+    constructor(gridRef, x, y) {
+        this.grid = gridRef;
+
+        this.x = x;
+        this.y = y;
+    }
+}
 
 class SimItem {
     constructor() {
     }
 
-    simUpdate(x, y) {
+    simUpdate(simDat) {
     }
-    drawUpdate(ctx, x, y) {
+
+    getPxColor() {
+        return backgroundColor;
     }
 }
 
@@ -22,14 +33,19 @@ class Grid {
             this.data[this.data.length] = null;
         }
     }
-
+    
+    isValidC(x, y) {
+        return !(
+                (x < 0 || x >= this.width) ||
+                (y < 0 || y >= this.height));
+    }
 
     getI(x, y) {
         return (this.width * y) + x;
     }
 
     getC(i) {
-        return [i % height, Math.floor(i / height)];
+        return [i % this.height, Math.floor(i / this.height)];
     }
 
 
@@ -57,31 +73,44 @@ class Grid {
     }
 
 
+
     resetField() {
         for (let i = 0; i < this.data.length; i++) {
             this.data[i] = null;
         }
     }
 
+    move(srcX, srcY, targetX, targetY) {
+        if (this.isValidC(srcX, srcY) && this.isValidC(targetX, targetY)) {
+            const   targetI = this.getI(targetX, targetY),
+                    srcI = this.getI(srcX, srcY);
+            let cObj = this.data[targetI];
+            this.data[targetI] = this.data[srcI];
+            this.data[srcI] = cObj;
+        }
+    }
+
     update() {
+        let targetDat = new SimData(this, 0, 0);
         for (let i = 0; i < this.data.length; i++) {
             if (this.data[i] instanceof SimItem) {
                 let coords = this.getC(i);
-                this.data[i].simUpdate(cords[0], coords[1]);
+                targetDat.x = coords[0];
+                targetDat.y = coords[1];
+                this.data[i].simUpdate(targetDat);
             }
         }
     }
 
     draw(canv, ctx, widthpx, heightpx)  {
-        console.log(ctx);
-        
 
         // TODO
         const tileHeight = heightpx / this.height, tileWidth = widthpx / this.width;
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
-                //ctx.fillStyle = randomColor();
-                ctx.fillStyle = '#0000BB';
+                let cSimElem = this.data[this.getI(x, y)];
+
+                ctx.fillStyle = cSimElem === null ? backgroundColor : cSimElem.getPxColor();
                 ctx.beginPath();
                 ctx.fillRect(x, y, 1, 1);
                 
@@ -91,23 +120,23 @@ class Grid {
         // Pass Drawing data (context, width, height)
         
 
-
+        /*
         for (let i = 0; i < this.data.length; i++) {
             if (this.data[i] instanceof SimItem) {
                 let coords = this.getC(i);
                 //this.data[i].drawUpdate(ctx, coords[0], coords[1]);
             }
-        }
+        }*/
         const   scaleX = widthpx / this.width,
                 scaleY = heightpx / this.height;
-        //canv.style.transformOrigin = '0 0';
-        //canv.style.transform = 'scale(' + Math.min(scaleX, scaleY) + ')';
-        //canv.style.imageRendering = 'pixelated';
+        canv.style.transformOrigin = '0 0';
+        canv.style.transform = 'scale(' + Math.min(scaleX, scaleY) + ')';
+        canv.style.imageRendering = 'pixelated';
     }
 
 }
 
-function initGrid(canv, height, width) {
+function initGrid(height, width) {
     grid = new Grid(height, width);
 
 }
