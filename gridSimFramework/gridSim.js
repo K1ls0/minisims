@@ -33,6 +33,7 @@ class TestMover extends SimItem {
             this.vec[1] = -this.vec[1];
             newY = simDat.y + this.vec[1];
         }
+        
         //console.log('x1: '+ simDat.x + ' y1: ' + simDat.y);
         //console.log('x2: ' + newX + ' y2: ' + newY);
         

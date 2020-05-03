@@ -28,6 +28,7 @@ class Grid {
         this.height = height;
         this.width = width;
         this.data = [];
+        this.scheduledMoves = [];
 
         for (let i = 0; i < height * width; i++) {
             this.data[this.data.length] = null;
@@ -82,12 +83,20 @@ class Grid {
 
     move(srcX, srcY, targetX, targetY) {
         if (this.isValidC(srcX, srcY) && this.isValidC(targetX, targetY)) {
-            const   targetI = this.getI(targetX, targetY),
-                    srcI = this.getI(srcX, srcY);
+            this.scheduledMoves[this.scheduledMoves.length] = [srcX, srcY, targetX, targetY];
+        }
+    }
+
+    flushMoves() {
+        for (let i = 0; i < this.scheduledMoves.length; i++) {
+            const cPair = this.scheduledMoves[i];
+            const   targetI = this.getI(cPair[2], cPair[3]),
+                    srcI = this.getI(cPair[0], cPair[1]);
             let cObj = this.data[targetI];
             this.data[targetI] = this.data[srcI];
             this.data[srcI] = cObj;
         }
+        this.scheduledMoves = [];
     }
 
     update() {
@@ -100,9 +109,11 @@ class Grid {
                 this.data[i].simUpdate(targetDat);
             }
         }
+        console.log('Moves after update: ', this.scheduledMoves);
+        this.flushMoves();
     }
 
-    draw(canv, ctx, widthpx, heightpx)  {
+    draw(canv, ctx, widthpx, heightpx) {
 
         // TODO
         const tileHeight = heightpx / this.height, tileWidth = widthpx / this.width;
