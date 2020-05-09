@@ -46,6 +46,7 @@ function resizeHandler() {
     }
     
     fullWidth = window.innerWidth;
+    fullHeight = window.innerHeight;
 
     // TODO move this functionality into Classes and call "onResize()"
     
@@ -114,6 +115,5 @@ window.onload = () => {
     init();
 
     resizeHandler();
-
     window.requestAnimationFrame(animLoop);
 };
