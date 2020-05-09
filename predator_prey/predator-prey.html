@@ -12,19 +12,42 @@
             body {
                 margin: 0;
                 background: #636363;
-                overflow: hidden;
             }
+            .body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
             .container {
                 display: flex; 
-                flex-wrap: nowrap;
                 flex-direction: column;
+                flex-wrap: nowrap;
+                align-items: flex-start;
                 justify-content: center;
-                align-items: stretch;
+            }
+            
+            .f {
+                align-self: center;
+            }
+
+            .g {
+                align-self: center;
+                
+            }
+
+            .spacer {
+                height: 40pt;
             }
         </style>
     </head>
-    <body class="container">
-        <canvas id="field" width="150" height="150" style="flex-grow: 1;"></canvas>
-        <canvas id="graph" width="150" height="150" style="flex-grow: 2;"></canvas>
+    <body class="body">
+        <div class="container">
+            <div id="fieldContainer">
+                <canvas id="field" width="150" height="150"></canvas>
+            </div>
+            <div class="spacer"></div> 
+            <canvas id="graph" width="150" height="150"></canvas>    
+        </div>
     </body>
 </html>

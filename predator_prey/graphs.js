@@ -84,23 +84,26 @@ class Graph {
         return this.globalMin < 0 ? -((endy-starty)*this.globalMin)/(this.globalMax - this.globalMin) : 0;
     }
 
+    onResize(canvas, widthpx, heightpx) {
+        
+    }
 
-    draw(ctx, pxWidth, pxHeight) {
-        //console.log('graphs: ', pxWidth, pxHeight);
-        this.drawCanvas(ctx, pxWidth, pxHeight);
+    draw(ctx, widthpx, heightpx) {
+        //console.log('graphs: ', widthpx, heightpx);
+        this.drawCanvas(ctx, widthpx, heightpx);
 
         for (let cGraphI = 0; cGraphI < this.graphs.length; cGraphI++) {
-            this.drawGraph(ctx, pxWidth, pxHeight, cGraphI);
+            this.drawGraph(ctx, widthpx, heightpx, cGraphI);
         }
     }
 
-    drawGraph(ctx, pxWidth, pxHeight, cGI) {
+    drawGraph(ctx, widthpx, heightpx, cGI) {
         if (cGI >= this.graphs.length || cGI < 0) return;
         
         let cG = this.graphs[cGI];
         
-        const startx = this.INNER_OFFSET, endx = pxWidth - this.INNER_OFFSET;
-        const starty = this.INNER_OFFSET, endy = pxHeight - this.INNER_OFFSET;
+        const startx = this.INNER_OFFSET, endx = widthpx - this.INNER_OFFSET;
+        const starty = this.INNER_OFFSET, endy = heightpx - this.INNER_OFFSET;
 
         ctx.fillStyle = null;
         ctx.strokeStyle = cG.color;
@@ -119,13 +122,13 @@ class Graph {
         ctx.stroke();
     }
 
-    drawCanvas(ctx, pxWidth, pxHeight) {
-        //console.log('Got Here! ', pxWidth, pxHeight, ctx);
+    drawCanvas(ctx, widthpx, heightpx) {
+        //console.log('Got Here! ', widthpx, heightpx, ctx);
 
 
         // draw bounding box with tiks
-        const startx = this.INNER_OFFSET, endx = pxWidth - this.INNER_OFFSET;
-        const starty = this.INNER_OFFSET, endy = pxHeight - this.INNER_OFFSET;
+        const startx = this.INNER_OFFSET, endx = widthpx - this.INNER_OFFSET;
+        const starty = this.INNER_OFFSET, endy = heightpx - this.INNER_OFFSET;
         const deltax = endx - startx, deltay = endy - starty;
         
         ctx.fillStyle = null;

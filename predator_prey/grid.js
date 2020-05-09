@@ -111,6 +111,21 @@ class Grid {
         this.flushMoves();
     }
 
+    onResize(canv, widthpx, heightpx) {
+        // Container scaling for better behaving canvas
+        let fieldContainer = document.getElementById('fieldContainer');
+        if (fieldContainer != null) {
+            fieldContainer.style.width = widthpx + 'px';
+            fieldContainer.style.height = heightpx + 'px';
+        }
+
+        const   scaleX = widthpx / this.width,
+                scaleY = heightpx / this.height;
+        canv.style.transformOrigin = '0 0';
+        canv.style.transform = 'scale(' + Math.min(scaleX, scaleY) + ')';
+        canv.style.imageRendering = 'pixelated';
+    }
+
     draw(canv, ctx, widthpx, heightpx) {
         console.log('grid: ', widthpx, heightpx);
 
@@ -137,11 +152,6 @@ class Grid {
                 //this.data[i].drawUpdate(ctx, coords[0], coords[1]);
             }
         }*/
-        const   scaleX = widthpx / this.width,
-                scaleY = heightpx / this.height;
-        canv.style.transformOrigin = '0 0';
-        canv.style.transform = 'scale(' + Math.min(scaleX, scaleY) + ')';
-        canv.style.imageRendering = 'pixelated';
     }
 
     
